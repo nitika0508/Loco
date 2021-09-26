@@ -54,7 +54,38 @@ class Transaction extends Model
             $response[] = $child->getChildId();
         }
         return $response;
+    }
 
+    public static function getAllTransactionIdsOfType($type)
+    {
+        $response = [];
+        $transactions = self::query()->where('type', '=', $type)->get();
+        foreach ($transactions as $transaction){
+            $response[] = $transaction->getId();
+        }
+        return $response;
+    }
+
+    public function getSumTransaction()
+    {
+        $response = $this->getAmount();
+        $childsOfTransactionId = $this->getAllChildIds();
+        $sumofAllChilds = 0;
+        if(!empty($childsOfTransactionId)) {
+            $sumofAllChilds = $this->getSumOfTransactionIds($childsOfTransactionId);
+        }
+        $response = $response + $sumofAllChilds;
+        return $response;
+    }
+
+    public function getSumOfTransactionIds($transactionIds)
+    {
+        $response = 0;
+        $transactions = self::query()->whereIn('id', $transactionIds)->get();
+        foreach ($transactions as $transaction){
+            $response += $transaction->getAmount();
+        }
+        return $response;
     }
 
 }

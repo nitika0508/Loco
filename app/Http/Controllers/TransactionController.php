@@ -72,4 +72,52 @@ class TransactionController extends Controller
         return ResponseGenerator::successResponse();
     }
 
+    public function getTransaction($transactionId)
+    {
+        if(empty($transactionId)){
+            return ResponseGenerator::failureResponse("Transaction Id can't be empty");
+        }
+
+        if(is_integer($transactionId)){
+            return ResponseGenerator::failureResponse("Invalid Transaction Id");
+        }
+
+        $transaction = Transaction::find($transactionId);
+        if(empty($transaction)){
+            return ResponseGenerator::failureResponse("Transaction Not Found");
+        }
+        return json_encode([
+            'amount' => $transaction->getAmount(),
+            'type' => $transaction->getType(),
+            'parent_id' => $transaction->getParentId()
+        ]);
+    }
+
+    public function getAllTransactionsOfType($type)
+    {
+        if(empty($type)){
+            return ResponseGenerator::failureResponse("Type can't be empty");
+        }
+        return Transaction::getAllTransactionIdsOfType($type);
+    }
+
+    public function getSumTransaction($transactionId)
+    {
+        if(empty($transactionId)){
+            return ResponseGenerator::failureResponse("Transaction Id can't be empty");
+        }
+
+        if(is_integer($transactionId)){
+            return ResponseGenerator::failureResponse("Invalid Transaction Id");
+        }
+
+        $transaction = Transaction::find($transactionId);
+        if(empty($transaction)){
+            return ResponseGenerator::failureResponse("Transaction Not Found");
+        }
+
+        $sum = $transaction->getSumTransaction();
+        return json_encode(['sum' => $sum]);
+    }
+
 }

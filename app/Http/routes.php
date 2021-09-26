@@ -16,3 +16,6 @@ Route::get('/', function () {
 });
 
 Route::put('transactionservice/transaction/{id}', ["uses" => "TransactionController@createTransaction"]);
+Route::get('transactionservice/transaction/{id}', ["uses" => "TransactionController@getTransaction"]);
+Route::get('transactionservice/types/{type}', ["uses" => "TransactionController@getAllTransactionsOfType"]);
+Route::get('transactionservice/sum/{id}', ["uses" => "TransactionController@getSumTransaction"]);

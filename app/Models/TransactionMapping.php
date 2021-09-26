@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionMapping extends Model
 {
-    protected $table = "parent_child_transactions_map1";
+    protected $table = "parent_child_transactions_map";
     public $timestamps = false;
 
     public function getParentId()
