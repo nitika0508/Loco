@@ -46,10 +46,9 @@ class TransactionController extends Controller
             if(empty($parentIdExisting)){
                 return ResponseGenerator::failureResponse("No transaction found with parent Id");
             }
-        }
-
-        if($request['parent_id'] == $transactionId){
-            return ResponseGenerator::failureResponse("Transaction Id and parent id should be different");
+            if($request['parent_id'] == $transactionId){
+                return ResponseGenerator::failureResponse("Transaction Id and parent id should be different");
+            }
         }
 
         $requestObj = new \stdClass();
